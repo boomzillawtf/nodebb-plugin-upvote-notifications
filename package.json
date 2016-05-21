@@ -1,0 +1,38 @@
+{
+	"name": "nodebb-plugin-upvote-notifications",
+	"version": "0.1.0",
+	"nbbpm": {
+		"compatibility": "^1.0.3"
+	},
+	"description": "Filter Upvote Notifications",
+	"main": "",
+	"scripts": {},
+	"repository": {
+		"type": "git"
+	},
+	"dependencies": {
+		"async": "~1.5.0"
+	},
+	"devDependencies": {},
+	"keywords": [
+		"nodebb",
+		"plugin",
+		"notification",
+		"upvote"
+	],
+	"author": {
+		"name": "boomzillawtf",
+		"email": "boomzillawtf@gmail.com"
+	},
+	"license": "???",
+	"_id": "nodebb-plugin-upvote-notifications",
+	"_npmUser": {
+		"name": "boomzillawtf"
+	},
+	"maintainers": [
+		{
+		"name": "boomzillawtf",
+		"email": "boomzillawtwf@gmail.com"
+		}
+	]
+}

@@ -1,0 +1,22 @@
+{
+	"id": "nodebb-plugin-upvote-notifications",
+	"name": "Filter Upvote Notifications",
+	"description": "NodeBB plugin that allows users to customize the way they are notified about upvotes.",
+	"url": "",
+	"library": "./library.js",
+	"hooks":[
+		{"hook": "filter:notification.push", "method": "filterNotificationPush"},
+		{ "hook": "filter:user.customSettings", "method": "filterUserCustomSettings" },
+		{ "hook": "filter:user.getSettings", "method": "filterUserGetSettings" },
+		{ "hook": "action:user.saveSettings", "method": "actionUserSaveSettings" }
+	],
+	"languages": "languages",
+	"defaultLang": "en_US",
+	"templates": "",
+	"scripts": [
+	],
+	"staticDirs": {
+	},
+	"less":[
+	]
+}

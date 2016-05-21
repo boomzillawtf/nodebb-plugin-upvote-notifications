@@ -1,0 +1,7 @@
+{
+	"settings_header" : "Upvote Notifications",
+	"notify_all": "All",
+	"notify_threshold": "1st, 5th, 10th, 25th, 50th, 50xth",
+	"notify_first": "First Only",
+	"notify_none": "None"
+}
