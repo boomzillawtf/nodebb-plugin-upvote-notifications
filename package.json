@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-upvote-notifications",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "nbbpm": {
     "compatibility": "^1.0.3"
   },
