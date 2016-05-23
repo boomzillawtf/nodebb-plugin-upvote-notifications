@@ -17,6 +17,8 @@ Next, from this plugin's root directory:
 `$ npm link`
 
 ##Changes
+    0.1.2
+     - Fix regression so both testing and normal plugin initialization work
     0.1.1
      - Check the vote order to account for notification delay
      - Added integration tests

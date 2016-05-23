@@ -5,7 +5,7 @@
 	"url": "",
 	"library": "./library.js",
 	"hooks":[
-		{"hook": "filter:notification.push", "method": "filterNotificationPush"},
+		{ "hook": "filter:notification.push", "method": "filterNotificationPush"},
 		{ "hook": "filter:user.customSettings", "method": "filterUserCustomSettings" },
 		{ "hook": "filter:user.getSettings", "method": "filterUserGetSettings" },
 		{ "hook": "action:user.saveSettings", "method": "actionUserSaveSettings" }

@@ -1,10 +1,4 @@
-/*
- * In order to run tests, nodebb must be installed as a module via npm link.
- * First, go to your nodebb directory, then:
- *    $ sudo npm link`
- * Next, from this plugin's root directory:
- *    $ npm link
- */
+
 'use strict';
 
 var assert = require('chai').assert;
