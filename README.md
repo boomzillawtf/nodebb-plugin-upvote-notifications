@@ -8,7 +8,17 @@ upvotes to their posts:
  - First Only: Only the first upvote generates a notification.
  - None: The user never gets any upvote notifications.
 
+## Developers
+In order to run tests, nodebb must be installed as a module via npm link (the package in npm is very old).
+First, go to your nodebb directory, then:
+`$ sudo npm link`
+
+Next, from this plugin's root directory:
+`$ npm link`
+
 ##Changes
-    
+    0.1.1
+     - Check the vote order to account for notification delay
+     - Added integration tests
     0.1.0
      - Set the notification level from user settings

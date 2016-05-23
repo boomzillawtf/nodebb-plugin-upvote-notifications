@@ -1,0 +1,19 @@
+{
+    "url": "http://localhost:4567",
+    "secret": "2b882906-64dd-480c-a575-324ca59148be",
+    "database": "mongo",
+    "mongo": {
+        "host": "127.0.0.1",
+        "port": "27017",
+        "username": "",
+        "password": "",
+        "database": "0"
+    },
+	"test_database": {
+		"host": "127.0.0.1",
+		"port": "27017",
+		"password": "",
+		"database": "1"
+	}
+
+}

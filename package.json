@@ -6,14 +6,28 @@
 	},
 	"description": "Filter Upvote Notifications",
 	"main": "",
-	"scripts": {},
+	"scripts": {
+		"test": "./node_modules/.bin/istanbul cover -x \"integration/*\" ./node_modules/.bin/_mocha -- ./integration -t 100000"
+	},
+	"homepage": "https://github.com/boomzillawtf/nodebb-plugin-upvote-notifications",
 	"repository": {
-		"type": "git"
+		"type": "git",
+		"url": "https://github.com/boomzillawtf/nodebb-plugin-upvote-notifications"
 	},
 	"dependencies": {
 		"async": "~1.5.0"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+		"validator": "^5.0.0",
+		"chai": "~3.5.0",
+		"istanbul": "^0.4.2",
+		"mocha": "~1.13.0",
+		"bcryptjs": "~2.3.0",
+		"nconf": "~0.8.2"
+	},
+	"bugs": {
+		"url": "https://github.com/boomzillawtf/nodebb-plugin-upvote-notifications/issues"
+	},
 	"keywords": [
 		"nodebb",
 		"plugin",
@@ -24,15 +38,14 @@
 		"name": "boomzillawtf",
 		"email": "boomzillawtf@gmail.com"
 	},
-	"license": "???",
-	"_id": "nodebb-plugin-upvote-notifications",
+	"license": "MIT",
 	"_npmUser": {
 		"name": "boomzillawtf"
 	},
 	"maintainers": [
 		{
 		"name": "boomzillawtf",
-		"email": "boomzillawtwf@gmail.com"
+		"email": "boomzillawtf@gmail.com"
 		}
 	]
 }
