@@ -3,9 +3,6 @@ var async = require('async');
 var favourites;
 var db;
 var Upvotes = function( _favourites, _db ){
-	console.log('\nUPVOTES');
-	console.log( _favourites );
-	console.log( _db );
 	favourites = _favourites || module.parent.require('./favourites');
 	db = _db || module.parent.require('./database');
 	return Upvotes;
