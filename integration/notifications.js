@@ -152,7 +152,16 @@ describe('Notification\'s', function() {
 					replyToUpvote(next);
 				},
 				function(postData, next) {
-					pid = postData.pid;
+					next(null, postData.pid);
+				}
+				], function(err, pid){
+					callback(err, pid);
+				});
+		}
+		
+		function upvoteAndWait(pid, callback){
+			async.waterfall([
+				function(next){
 					upvote(pid, next);
 				},
 				function(next) {
@@ -172,6 +181,9 @@ describe('Notification\'s', function() {
 				function(next) {
 					setup(Upvotes.notify_all, next);
 				},
+				function(pid, next){
+					upvoteAndWait(pid, next);
+				},
 				function(notifications, next) {
 					assert.equal(notifications.length, voterUids.length, 'Expected to get a notification for each upvote');
 					next();
@@ -184,6 +196,9 @@ describe('Notification\'s', function() {
 			async.waterfall([
 				function(next) {
 					setup(Upvotes.notify_threshold, next);
+				},
+				function(pid, next){
+					upvoteAndWait(pid, next);
 				},
 				function(notifications, next) {
 					assert.equal(notifications.length, 3, 'Expected to get a notification for each upvote');
@@ -198,6 +213,9 @@ describe('Notification\'s', function() {
 				function(next) {
 					setup(Upvotes.notify_first, next);
 				},
+				function(pid, next){
+					upvoteAndWait(pid, next);
+				},
 				function(notifications, next) {
 					assert.equal(notifications.length, 1, 'Expected to get a notification for each upvote');
 					next();
@@ -211,11 +229,58 @@ describe('Notification\'s', function() {
 				function(next) {
 					setup(Upvotes.notify_none, next);
 				},
+				function(pid, next){
+					upvoteAndWait(pid, next);
+				},
 				function(notifications, next) {
 					assert.equal(notifications.length, 0, 'Expected to get no notifications for each upvote');
 					next();
 				}
 			],done);
+		});
+        
+		it('should not send a notification when a user has changed his vote to a downvote', function(done){
+			var uid = voterUids[0];
+			var pid;
+			async.waterfall([
+				function(next){
+					setup(Upvotes.notify_first, next);
+				},
+				function(_pid, cb) {
+					pid = _pid;
+					socket = {};
+					socket.uid = uid;
+					socket.room_id = 'not a real room';
+					var socket_cb = function(err, result){};
+					socket.emit = function(foo, bar, socket_cb){};
+					SocketPosts.upvote(socket, {pid: pid, cid: categoryId, room_id: 'topic_' + topicId }, cb);
+				},
+				function(next) {
+					// notifications are on a 1000ms timer, so we need to wait for them to happen
+					setTimeout(next, 500);
+				},
+				function(cb) {
+					socket = {};
+					socket.uid = uid;
+					socket.room_id = 'not a real room';
+					var socket_cb = function(err, result){};
+					socket.emit = function(foo, bar, socket_cb){};
+					SocketPosts.downvote(socket, {pid: pid, cid: categoryId, room_id: 'topic_' + topicId }, cb);
+				},
+				function(next) {
+					// notifications are on a 1000ms timer, so we need to wait for them to happen
+					setTimeout(next, 1200);
+				},
+				function(next) {
+					db.getSortedSetsMembers(['uid:' + posterUid + ':notifications:unread'], next);
+				},
+				function(notifications, next){
+					notifications = notifications[0];
+					console.log(notifications);
+					assert.equal(notifications.length, 0, 'Expected to get no notifications for a switched vote: ' + JSON.stringify(notifications) );
+					next();
+				}
+			], done);
 		});
 	});
 });

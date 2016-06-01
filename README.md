@@ -17,6 +17,9 @@ Next, from this plugin's root directory:
 `$ npm link`
 
 ##Changes
+    0.1.3
+     - Removed extra console.logs
+     - Updated tests
     0.1.2
      - Fix regression so both testing and normal plugin initialization work
     0.1.1
