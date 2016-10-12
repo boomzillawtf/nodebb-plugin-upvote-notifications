@@ -1,13 +1,29 @@
-
+/* To set up integration testing
+ * https://community.nodebb.org/post/50706
+ * Dev Dependencies:
+ * bcryptjs ~2.3.0
+ * nconf ~0.8.2
+ * npm link nodebb as a module for the plugin
+ * Put bcrypt.js from the nodebb root directory into the root directory for my plugin (for user password hashing when creating users in the tests)
+ * Plugin set up to optionally accept nodebb modules from the test code instead of normal module.parent.require method.
+ * Configure a test_database in nodebb/config.json. For example:
+ * "test_database": {
+		"host": "127.0.0.1",
+        "port": "27017",
+        "username": "",
+        "password": "",
+        "database": "test"
+	}
+ */
 'use strict';
 
 var assert = require('chai').assert;
 var async = require('async');
 var validator = require('validator');
 
-var db = require('nodebb/tests/mocks/databasemock');
+var db = require('nodebb/test/mocks/databasemock');
 var categories = require('nodebb/src/categories');
-var favourites = require('nodebb/src/favourites');
+var posts = require('nodebb/src/posts');
 var notifications = require('nodebb/src/notifications');
 var SocketPosts = require('nodebb/src/socket.io/posts');
 var topics = require('nodebb/src/topics');
@@ -15,7 +31,7 @@ var User = require('nodebb/src/user');
 var plugins = require('nodebb/src/plugins');
 var pluginJson = require('../plugin.json');
 
-var Upvotes = require('../library')(favourites, db);
+var Upvotes = require('../library')(posts, db);
 
 describe('Notification\'s', function() {
 	before(function(done){
@@ -112,7 +128,7 @@ describe('Notification\'s', function() {
 				assert.isNotOk(err, 'Error upvoting the post');
 				async.waterfall([
 					function(next){
-						favourites.getUpvotedUidsByPids([pid], next);
+						posts.getUpvotedUidsByPids([pid], next);
 					},
 					function(uids, next){
 						uids = uids[0];

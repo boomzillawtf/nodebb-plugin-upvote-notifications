@@ -1,9 +1,9 @@
 'use strict';
 var async = require('async');
-var favourites;
+var posts;
 var db;
-var Upvotes = function( _favourites, _db ){
-	favourites = _favourites || module.parent.require('./favourites');
+var Upvotes = function( _posts, _db ){
+	posts = _posts || module.parent.require('./posts');
 	db = _db || module.parent.require('./database');
 	return Upvotes;
 };
@@ -99,7 +99,7 @@ Upvotes.filterNotificationPush = function(data, callback){
 				}
 				else{
 					notificationSetting = _notificationSetting;
-					return favourites.getUpvotedUidsByPids([notification.pid], next);
+					return posts.getUpvotedUidsByPids([notification.pid], next);
 				}
 			},
 			function( uids, next ){
