@@ -31,6 +31,7 @@ You must have a `test_database` configured in nodebb's `config.json` file:
     0.2.0
      - Compatible with NodeBB v1.3, which introduced breaking changes
        in vote handling code.
+     - Don't notify user with "-1 votes" notifications on unvotes
     0.1.3
      - Removed extra console.logs
      - Updated tests

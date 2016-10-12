@@ -90,15 +90,12 @@ Upvotes.filterNotificationPush = function(data, callback){
 				Upvotes.getNotificationSetting(uid, next);
 			},
 			function( _notificationSetting, next ){
-				if( !_notificationSetting || _notificationSetting == Upvotes.notify_all ){
-					return next(null, '');
-				}
-				else if( _notificationSetting == Upvotes.notify_none ){
+				if( _notificationSetting == Upvotes.notify_none ){
 					data.uids = [];
 					return next(null, '');
 				}
 				else{
-					notificationSetting = _notificationSetting;
+					notificationSetting = _notificationSetting || Upvotes.notify_all;
 					return posts.getUpvotedUidsByPids([notification.pid], next);
 				}
 			},
@@ -106,8 +103,15 @@ Upvotes.filterNotificationPush = function(data, callback){
 				if( uids && Array.isArray(uids) ){
 					uids = uids[0];
 					var vote = uids.indexOf( notification.from.toString() ) + 1;
-					if( vote != 1 ){
-						// first upvote gets notified for first and threshold always...
+					if( vote == 0 ){
+						// the user downvoted or unvoted
+						data.uids = [];
+					}
+					else if( notificationSetting == Upvotes.notify_all ){
+						// leave it be...
+					}
+					else if( vote != 1 ){
+						// first upvote gets notified for first and threshold always, so we only need to look at other cases...
 						if( notificationSetting == Upvotes.notify_threshold ){
 							if( [5,10,25,50].indexOf(vote) != -1 || vote % 50 == 0 ){
 								// they get it! let's update it for the multiples

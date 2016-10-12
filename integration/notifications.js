@@ -255,7 +255,7 @@ describe('Notification\'s', function() {
 			],done);
 		});
         
-		it('should not send a notification when a user has changed his vote to a downvote', function(done){
+		it('should not send a notification when a user has changed his upvote to a downvote', function(done){
 			var uid = voterUids[0];
 			var pid;
 			async.waterfall([
@@ -292,8 +292,50 @@ describe('Notification\'s', function() {
 				},
 				function(notifications, next){
 					notifications = notifications[0];
-					console.log(notifications);
 					assert.equal(notifications.length, 0, 'Expected to get no notifications for a switched vote: ' + JSON.stringify(notifications) );
+					next();
+				}
+			], done);
+		});
+		
+		it('should not send a notification when a user has removed his upvote', function(done){
+			var uid = voterUids[0];
+			var pid;
+			async.waterfall([
+				function(next){
+					setup(Upvotes.notify_first, next);
+				},
+				function(_pid, cb) {
+					pid = _pid;
+					socket = {};
+					socket.uid = uid;
+					socket.room_id = 'not a real room';
+					var socket_cb = function(err, result){};
+					socket.emit = function(foo, bar, socket_cb){};
+					SocketPosts.upvote(socket, {pid: pid, cid: categoryId, room_id: 'topic_' + topicId }, cb);
+				},
+				function(next) {
+					// notifications are on a 1000ms timer, so we need to wait for them to happen
+					setTimeout(next, 500);
+				},
+				function(cb) {
+					socket = {};
+					socket.uid = uid;
+					socket.room_id = 'not a real room';
+					var socket_cb = function(err, result){};
+					socket.emit = function(foo, bar, socket_cb){};
+					SocketPosts.unvote(socket, {pid: pid, cid: categoryId, room_id: 'topic_' + topicId }, cb);
+				},
+				function(next) {
+					// notifications are on a 1000ms timer, so we need to wait for them to happen
+					setTimeout(next, 1200);
+				},
+				function(next) {
+					db.getSortedSetsMembers(['uid:' + posterUid + ':notifications:unread'], next);
+				},
+				function(notifications, next){
+					notifications = notifications[0];
+					assert.equal(notifications.length, 0, 'Expected to get no notifications for a removed vote: ' + JSON.stringify(notifications) );
 					next();
 				}
 			], done);
